@@ -55,7 +55,7 @@ export default function RegisterStudent() {
       });
 
       setTimeout(() => router.push("/auth/login"), 3000);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);

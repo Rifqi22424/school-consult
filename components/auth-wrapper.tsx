@@ -11,7 +11,7 @@ export default function AuthWrapper({
   setIsAuthPage: (isAuth: boolean) => void;
 }) {
   //   const initialAuthState = useMemo(() => !!localStorage.getItem("token"), []);
-  const pathname = usePathname();
+  const pathname = usePathname() || "";
   const router = useRouter();
   const isAuthPage = pathname.startsWith("/auth");
 

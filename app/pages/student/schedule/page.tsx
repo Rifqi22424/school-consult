@@ -28,7 +28,7 @@ export default function StudentSchedulePage() {
         }
         const data = await res.json()
         setSchedules(data)
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message)
       } finally {
         setLoading(false)
@@ -37,7 +37,7 @@ export default function StudentSchedulePage() {
     fetchSchedules()
   }, [])
 
-  const handleStartCounseling = (teacherPhone) => {
+  const handleStartCounseling = (teacherPhone: any) => {
     if (teacherPhone) {
       window.open(`https://wa.me/${teacherPhone}`, "_blank")
     } else {
@@ -52,7 +52,7 @@ export default function StudentSchedulePage() {
   if (loading) return <p className="p-8 text-center text-gray-500">Loading...</p>
   if (error) return <p className="p-8 text-center text-red-500">Error: {error}</p>
 
-  const getStatusBadge = (status) => {
+  const getStatusBadge = (status: "REJECTED" | "COMPLETED" | "APPROVED" | "PENDING") => {
     const badges = {
       REJECTED: "bg-red-500",
       COMPLETED: "bg-[#75B7AA]",
@@ -123,7 +123,7 @@ export default function StudentSchedulePage() {
                     </tr>
                   </thead>
                   <tbody>
-                    {schedules.map((schedule) => {
+                    {schedules.map((schedule: any) => {
                       const scheduleDate = new Date(schedule.date)
                       const now = new Date()
                       const isExpired = scheduleDate < now

@@ -6,8 +6,8 @@ export default function TeacherSchedulePage() {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [expandedDescriptions, setExpandedDescriptions] = useState({});
-  const [expandedTitles, setExpandedTitles] = useState({});
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
+  const [expandedTitles, setExpandedTitles] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const token =
@@ -29,7 +29,7 @@ export default function TeacherSchedulePage() {
         }
         const data = await res.json();
         setSchedules(data);
-      } catch (err) {
+      } catch (err: any) {
         setError(err.message);
       } finally {
         setLoading(false);
@@ -41,22 +41,24 @@ export default function TeacherSchedulePage() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
 
-  const toggleDescription = (id) => {
+  const toggleDescription = (id: any) => {
     setExpandedDescriptions((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
   };
 
-  const toggleTitle = (id) => {
+  const toggleTitle = (id: any) => {
     setExpandedTitles((prev) => ({
       ...prev,
       [id]: !prev[id],
     }));
   };
 
-  const getStatusBadge = (status) => {
-    const badges = {
+  type BadgeStatus = "REJECTED" | "COMPLETED" | "APPROVED" | "PENDING";
+
+  const getStatusBadge = (status: BadgeStatus) => {
+    const badges: Record<BadgeStatus, string> = {
       REJECTED: "bg-red-500",
       COMPLETED: "bg-[#75B7AA]",
       APPROVED: "bg-green-500",
@@ -121,7 +123,7 @@ export default function TeacherSchedulePage() {
             </thead>
             <tbody>
               {schedules.length > 0 ? (
-                schedules.map((schedule) => {
+                schedules.map((schedule: any) => {
                   const scheduleDate = new Date(schedule.date);
                   const now = new Date();
                   const isExpired = scheduleDate < now;
@@ -147,7 +149,7 @@ export default function TeacherSchedulePage() {
                           </button>
                         )}
                       </td>
-                      <td className="p-2 max-w-40 break-words text-gray-600 text-sm text-sm">
+                      <td className="p-2 max-w-40 break-words text-gray-600 text-sm">
                         {expandedDescriptions[schedule.id]
                           ? schedule.description
                           : schedule.description.slice(0, 25) + "..."}
@@ -197,7 +199,7 @@ export default function TeacherSchedulePage() {
               ) : (
                 <tr>
                   <td
-                    colSpan="7"
+                    colSpan={7}
                     className="text-gray-600 text-sm p-2 text-center"
                   >
                     No schedules found.
