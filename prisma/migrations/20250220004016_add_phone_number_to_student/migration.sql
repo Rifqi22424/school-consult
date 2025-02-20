@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE `student` ADD COLUMN `phoneNumber` VARCHAR(191) NOT NULL DEFAULT '6285721050709';
+
+-- AlterTable
+ALTER TABLE `teacher` ALTER COLUMN `phoneNumber` DROP DEFAULT;
