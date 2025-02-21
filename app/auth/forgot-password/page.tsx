@@ -11,7 +11,7 @@ export default function ResetPassword() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setMessage("");
     setError("");
@@ -32,7 +32,7 @@ export default function ResetPassword() {
 
       setMessage("Password reset link has been sent to your email.");
       setEmail("");
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);

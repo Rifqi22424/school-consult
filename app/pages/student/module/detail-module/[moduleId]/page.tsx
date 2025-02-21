@@ -1,8 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
+import { ArrowLeft } from "lucide-react";
 
 export default function ModuleDetail() {
   const { moduleId } = useParams(); // Ambil moduleId dari URL
@@ -10,6 +11,7 @@ export default function ModuleDetail() {
   const [module, setModule] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     if (!moduleId) return;
@@ -41,19 +43,27 @@ export default function ModuleDetail() {
   if (error) return <p className="text-red-500 p-8">{error}</p>;
 
   return (
-    <div className="text-gray-600 p-8">
-      <h1 className="text-2xl font-bold max-w-lg break-words">
-        {module.title}
-      </h1>
-      <h2 className="text-xl font-semibold max-w-lg break-words">
-        {module.description || "No description"}
-      </h2>
-      <p className="text-gray-500">
-        By: {module.teacher?.user?.fullname || "Unknown"}
-      </p>
-      <ReactMarkdown className="prose break-words max-w-5xl">
-        {module.content}
-      </ReactMarkdown>
+    <div className="text-gray-600 p-8 flex items-start">
+      <button
+        onClick={() => router.back()}
+        className="text-[#75B7AA] hover:text-[#629b8f] mr-4"
+      >
+        <ArrowLeft className="h-5 w-5" />
+      </button>
+      <div>
+        <h1 className="text-2xl font-bold max-w-lg break-words">
+          {module.title}
+        </h1>
+        <h2 className="text-xl font-semibold max-w-lg break-words">
+          {module.description || "No description"}
+        </h2>
+        <p className="text-gray-500">
+          By: {module.teacher?.user?.fullname || "Unknown"}
+        </p>
+        <ReactMarkdown className="prose break-words max-w-5xl">
+          {module.content}
+        </ReactMarkdown>
+      </div>
     </div>
   );
 }

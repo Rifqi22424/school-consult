@@ -81,47 +81,63 @@ export default function PendingSchedulesPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-gray-200">
-                <th className="text-left p-4 font-medium text-gray-900">Student</th>
-                <th className="text-left p-4 font-medium text-gray-900">Title</th>
-                <th className="text-left p-4 font-medium text-gray-900">Date</th>
-                <th className="p-4 font-medium text-gray-900 text-center">Actions</th>
+                <th className="text-left p-4 font-medium text-gray-900">
+                  Student
+                </th>
+                <th className="text-left p-4 font-medium text-gray-900">
+                  Title
+                </th>
+                <th className="text-left p-4 font-medium text-gray-900">
+                  Date
+                </th>
+                <th className="p-4 font-medium text-gray-900 text-center">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {schedules.length > 0 ? (
                 schedules.map((schedule: any) => (
-                  <tr key={schedule.id} className="border-b border-gray-200 last:border-0">
+                  <tr
+                    key={schedule.id}
+                    className="border-b border-gray-200 last:border-0"
+                  >
                     <td className="p-4 max-w-40 break-words text-gray-600 text-sm">
                       {schedule.student?.user?.fullname} (
                       {schedule.student?.user?.student?.grade})
                     </td>
-                    <td className="p-4 max-w-40 break-words text-gray-600 text-sm">{schedule.title}</td>
+                    <td className="p-4 max-w-40 break-words text-gray-600 text-sm">
+                      {schedule.title}
+                    </td>
                     <td className="p-4 max-w-40 break-words text-gray-600 text-sm">
                       {new Date(schedule.date).toLocaleString()}
                     </td>
                     <td className="p-4 max-w-40 break-words text-gray-600 text-sm text-center">
-                      <button
-                        onClick={() =>
-                          handleUpdateSchedule(schedule.id, "APPROVED")
-                        }
-                        className="bg-green-500 text-white px-4 py-1 rounded mr-2"
-                      >
-                        Terima
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleUpdateSchedule(schedule.id, "REJECTED")
-                        }
-                        className="bg-red-500 text-white px-4 py-1 rounded"
-                      >
-                        Tolak
-                      </button>
+                        <button
+                          onClick={() =>
+                            handleUpdateSchedule(schedule.id, "APPROVED")
+                          }
+                          className="bg-green-500 text-white px-4 py-1 rounded mr-2"
+                        >
+                          Terima
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleUpdateSchedule(schedule.id, "REJECTED")
+                          }
+                          className="bg-red-500 text-white px-4 py-1 rounded my-2"
+                        >
+                          Tolak
+                        </button>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="p-4 max-w-40 break-words text-gray-600 text-sm text-center">
+                  <td
+                    colSpan={4}
+                    className="p-4 max-w-40 break-words text-gray-600 text-sm text-center"
+                  >
                     No pending schedules found.
                   </td>
                 </tr>

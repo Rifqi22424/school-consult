@@ -55,7 +55,8 @@ export default function RegisterTeacher() {
       });
 
       setTimeout(() => router.push("/auth/login"), 3000);
-    } catch (err) {
+    } catch (err: any) {
+      console.log(err.message);
       setError(err.message);
     } finally {
       setLoading(false);

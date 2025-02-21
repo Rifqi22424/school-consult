@@ -8,10 +8,12 @@ import main_logo from "../../../public/assets/main_logo.png";
 
 export default function Login() {
   const router = useRouter();
-  // const [email, setEmail] = useState("teacher@example.com");
-  // const [password, setPassword] = useState("securepassword");
-  const [email, setEmail] = useState("rifqimuzakki45@gmail.com");
+  // const [email, setEmail] = useState("");
+  // const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("teacher@example.com");
   const [password, setPassword] = useState("securepassword");
+  // const [email, setEmail] = useState("rifqimuzakki45@gmail.com");
+  // const [password, setPassword] = useState("securepassword");
   const [error, setError] = useState("");
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -49,14 +51,14 @@ export default function Login() {
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-white to-[#75B7AA]">
       {/* Left Section */}
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center px-12">
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center px-28">
         <div className="mb-8">
           <Image
             src={main_logo}
             alt="Logo"
             width={80}
             height={80}
-            className="w-20 h-20"
+            className="w-48 h-48"
           />
         </div>
         <h1 className="text-5xl font-bold text-[#75B7AA] mb-4">
@@ -81,7 +83,7 @@ export default function Login() {
             <div>
               <input
                 type="email"
-                placeholder="Email, NIP, or NIS"
+                placeholder="Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA] text-black"

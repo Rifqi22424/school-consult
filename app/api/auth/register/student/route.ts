@@ -30,10 +30,13 @@ export async function POST(req: Request) {
     const validatedData = studentSchema.safeParse(body);
 
     if (!validatedData.success) {
-      return NextResponse.json(
-        { message: "Validation error", errors: validatedData.error.format() },
-        { status: 400 }
-      );
+      const errors = validatedData.error.flatten().fieldErrors;
+      const firstError =
+        Object.values(errors)
+          .flat()
+          .find((err) => err) || "Validation error";
+
+      return NextResponse.json({ message: firstError }, { status: 400 });
     }
 
     const {

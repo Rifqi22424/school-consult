@@ -6,6 +6,7 @@ import Link from "next/link";
 import AuthWrapper from "@/components/auth-wrapper";
 import { usePathname } from "next/navigation";
 import { useRouter } from "next/navigation";
+import { Menu, X } from "lucide-react";
 
 export default function LayoutWrapper({
   children,
@@ -16,6 +17,7 @@ export default function LayoutWrapper({
   const [role, setRole] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
   const [showLogout, setShowLogout] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const pathName = usePathname();
   const router = useRouter();
@@ -51,17 +53,37 @@ export default function LayoutWrapper({
         <main className="flex-1 overflow-auto bg-gray-50">{children}</main>
       ) : (
         <div className="flex h-screen bg-white">
+          {/* Mobile Sidebar Toggle */}
+          <button
+            className="absolute top-4 left-4 z-50 md:hidden text-gray-800"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            {!sidebarOpen && <Menu className="w-6 h-6" />}
+          </button>
           {/* Sidebar */}
-          <div className="w-64 border-r border-gray-200">
-            <div className="p-6">
+          <div
+            className={`fixed inset-y-0 left-0 w-64 bg-white border-r border-gray-200 transform transition-transform md:relative md:translate-x-0 z-40 ${
+              sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } md:block`}
+          >
+            <div className="p-6 flex justify-between">
               <Link href="/" className="text-2xl font-bold text-[#75B7AA]">
                 SahabatBK
               </Link>
+              {sidebarOpen && (
+                <button
+                  className="top-4 left-4 z-50 md:hidden"
+                  onClick={() => setSidebarOpen(!sidebarOpen)}
+                >
+                  {sidebarOpen && <X className="w-6 h-6 text-gray-800" />}
+                </button>
+              )}
             </div>
             <nav className="mt-6 space-y-1 px-3">
               {role === "STUDENT" ? (
                 <>
                   <Link
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
                     href="/pages/student/module/list-module"
                     className={`flex items-center px-4 py-3 rounded-lg font-medium ${
                       isActive("/pages/student/module/list-module")
@@ -72,6 +94,7 @@ export default function LayoutWrapper({
                     Modul bimbingan
                   </Link>
                   <Link
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
                     href="/pages/student/schedule"
                     className={`flex items-center px-4 py-3 rounded-lg font-medium ${
                       isActive("/pages/student/schedule")
@@ -85,6 +108,7 @@ export default function LayoutWrapper({
               ) : role === "TEACHER" ? (
                 <>
                   <Link
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
                     href="/pages/student/module/list-module"
                     className={`flex items-center px-4 py-3 rounded-lg font-medium ${
                       isActive("/pages/student/module/list-module")
@@ -95,6 +119,7 @@ export default function LayoutWrapper({
                     Modul bimbingan
                   </Link>
                   <Link
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
                     href="/teacher/schedule"
                     className={`flex items-center px-4 py-3 rounded-lg font-medium ${
                       isActive("/teacher/schedule")
@@ -105,6 +130,7 @@ export default function LayoutWrapper({
                     Jadwal konseling
                   </Link>
                   <Link
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
                     href="/teacher/schedule/pending"
                     className={`flex items-center px-4 py-3 rounded-lg font-medium ${
                       isActive("/teacher/schedule/pending")

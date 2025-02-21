@@ -143,7 +143,7 @@ export default function TeacherSchedulePage() {
                         {schedule.title.length > 15 && (
                           <button
                             onClick={() => toggleTitle(schedule.id)}
-                            className="text-blue-500 ml-2 text-xs"
+                            className="text-[#75B7AA] ml-2 text-xs"
                           >
                             {expandedTitles[schedule.id] ? "Less" : "More"}
                           </button>
@@ -156,7 +156,7 @@ export default function TeacherSchedulePage() {
                         {schedule.description.length > 25 && (
                           <button
                             onClick={() => toggleDescription(schedule.id)}
-                            className="text-blue-500 ml-2 text-xs"
+                            className="text-[#75B7AA] ml-2 text-xs"
                           >
                             {expandedDescriptions[schedule.id]
                               ? "Less"
