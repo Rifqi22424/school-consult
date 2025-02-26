@@ -16,6 +16,7 @@ export default function AuthWrapper({
   const isAuthPage = pathname.startsWith("/auth");
 
   console.log(pathname);
+  console.log("isAuthPage ", isAuthPage);
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -24,18 +25,22 @@ export default function AuthWrapper({
     setIsAuthenticated(!!token);
     setIsAuthPage(isAuthPage); // Kirim status halaman auth ke layout
 
-    if (!token && !isAuthPage) {
-      router.push("/auth/login");
-    }
-  }, [pathname, router, isAuthPage, setIsAuthPage]);
-
-  if (isAuthenticated === false) {
-    return null;
-  }
+    // if (!token && !isAuthPage) {
+    //   router.push("/auth/login");
+    // }
+  });
 
   if (isAuthenticated || isAuthPage) {
+    console.log("isAuthenticated || isAuthPage");
+
     return <>{children}</>;
   }
 
+  if (isAuthenticated === false) {
+    console.log("isAuthenticated === false");
+    return null;
+  }
+
+  console.log("null");
   return null;
 }

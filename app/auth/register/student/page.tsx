@@ -200,6 +200,13 @@ export default function RegisterStudent() {
         {success && (
           <p className="text-green-500 text-sm text-center mt-4">{success}</p>
         )}
+
+        <div className="text-center mt-6 text-gray-600">
+          Already have an account?{" "}
+          <Link href="/auth/login" className="text-[#75B7AA] hover:underline">
+            Login
+          </Link>
+        </div>
       </div>
     </div>
   );

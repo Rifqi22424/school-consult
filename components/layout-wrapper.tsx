@@ -13,7 +13,7 @@ export default function LayoutWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const [isAuthPage, setIsAuthPage] = useState(false);
+  const [isAuthPage, setIsAuthPage] = useState(true);
   const [role, setRole] = useState<string | null>(null);
   const [name, setName] = useState<string | null>(null);
   const [showLogout, setShowLogout] = useState(false);
