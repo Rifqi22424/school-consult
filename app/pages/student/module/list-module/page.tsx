@@ -14,12 +14,12 @@ export default function ModuleList() {
   const token =
     typeof window !== "undefined" ? localStorage.getItem("token") : null;
 
-  const handleDeleteClick = (moduleId) => {
+  const handleDeleteClick = (moduleId: any) => {
     setSelectedModuleId(moduleId);
     setIsModalOpen(true);
   };
 
-  const handleDelete = async (moduleId) => {
+  const handleDelete = async (moduleId: any) => {
     try {
       const response = await fetch(`/api/module/${moduleId}`, {
         method: "DELETE",
@@ -33,7 +33,7 @@ export default function ModuleList() {
       // Refresh data setelah menghapus
 
       setTimeout(() => window.location.reload(), 3000);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
     }
   };

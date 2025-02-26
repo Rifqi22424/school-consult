@@ -5,10 +5,19 @@ import { useParams, useRouter } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import { ArrowLeft } from "lucide-react";
 
-export default function ModuleDetail() {
-  const { moduleId } = useParams(); // Ambil moduleId dari URL
+type Module = {
+  id: string;
+  title: string;
+  description?: string;
+  content: string;
+  teacher?: { user?: { fullname?: string } };
+};
 
-  const [module, setModule] = useState(null);
+export default function ModuleDetail() {
+  const params = useParams();
+  const moduleId = params?.moduleId as string | undefined; // Pastikan moduleId bertipe string
+
+  const [module, setModule] = useState<Module | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -18,6 +27,7 @@ export default function ModuleDetail() {
 
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
+
     fetch(`/api/module/${moduleId}`, {
       headers: {
         "Content-Type": "application/json",
@@ -41,6 +51,7 @@ export default function ModuleDetail() {
 
   if (loading) return <p className="text-gray-600 p-8">Loading...</p>;
   if (error) return <p className="text-red-500 p-8">{error}</p>;
+  if (!module) return <p className="text-gray-600 p-8">Module not found</p>; // Tambahkan pengecekan
 
   return (
     <div className="text-gray-600 p-8 flex items-start">

@@ -1,26 +1,18 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import bcrypt from "bcryptjs";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-// Schema validasi input update (semua field wajib diisi)
+// Schema validasi update (fullname di User, grade & studentId di Student)
 const updateStudentSchema = z.object({
-  email: z.string().email("Invalid email format"),
   fullname: z.string().min(3, "Full name must be at least 3 characters"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
   studentId: z.string().min(5, "Student ID (NIS) must be at least 5 characters"),
   grade: z.string().min(3, "Grade is required"),
-  schoolId: z.string(),
-  phoneNumber: z
-    .string()
-    .regex(/^62\d{9,13}$/, "Phone number must start with 62 and be between 10-14 digits"),
 });
 
 export async function PUT(req: Request) {
   try {
-    // Ambil User ID dari header
     const userId = req.headers.get("x-user-id");
     if (!userId) {
       return NextResponse.json({ message: "User ID is required in header" }, { status: 400 });
@@ -36,47 +28,41 @@ export async function PUT(req: Request) {
       );
     }
 
-    const { email, fullname, password, studentId, grade, schoolId, phoneNumber } = validatedData.data;
+    const { fullname, studentId, grade } = validatedData.data;
 
-    // Cari user berdasarkan ID dari header
-    const user = await prisma.user.findUnique({ where: { id: userId } });
-
-    if (!user) {
-      return NextResponse.json({ message: "User not found" }, { status: 404 });
-    }
-
-    // Cek apakah email yang baru sudah dipakai user lain
-    if (email !== user.email) {
-      const existingUser = await prisma.user.findUnique({ where: { email } });
-      if (existingUser) {
-        return NextResponse.json({ message: "Email already in use" }, { status: 400 });
-      }
-    }
-
-    // Hash password sebelum disimpan
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // Update data user
-    const updatedUser = await prisma.user.update({
+    // Cari user dan student berdasarkan userId
+    const user = await prisma.user.findUnique({
       where: { id: userId },
-      data: {
-        email,
-        fullname,
-        password: hashedPassword,
-        student: {
-          update: {
-            studentId,
-            grade,
-            schoolId,
-            phoneNumber,
-          },
-        },
-      },
       include: { student: true },
     });
 
+    if (!user || !user.student) {
+      return NextResponse.json({ message: "User or student profile not found" }, { status: 404 });
+    }
+
+    // Cek apakah studentId (NIS) sudah digunakan oleh siswa lain
+    const existingStudent = await prisma.student.findUnique({
+      where: { studentId },
+    });
+
+    if (existingStudent && existingStudent.userId !== userId) {
+      return NextResponse.json({ message: "Student ID (NIS) already in use" }, { status: 400 });
+    }
+
+    // Update fullname di tabel User
+    await prisma.user.update({
+      where: { id: userId },
+      data: { fullname },
+    });
+
+    // Update studentId dan grade di tabel Student
+    const updatedStudent = await prisma.student.update({
+      where: { id: user.student.id },
+      data: { studentId, grade },
+    });
+
     return NextResponse.json(
-      { message: "Profile updated successfully", user: updatedUser },
+      { message: "Student profile updated successfully", student: updatedStudent },
       { status: 200 }
     );
   } catch (error) {

@@ -51,7 +51,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex bg-gradient-to-br from-white to-[#75B7AA]">
       {/* Left Section */}
-      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center px-28">
+      <div className="hidden lg:flex lg:w-1/2 flex-col justify-center px-36">
         <div className="mb-8">
           <Image
             src={main_logo}

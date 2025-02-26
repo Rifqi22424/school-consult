@@ -1,17 +1,16 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { ArrowLeft } from 'lucide-react';
 
 export default function UpdateStudentPage() {
   const [form, setForm] = useState({
-    email: "",
     fullname: "",
-    password: "",
     studentId: "",
     grade: "",
-    schoolId: "",
-    phoneNumber: "",
   });
+  const router = useRouter();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,8 +21,6 @@ export default function UpdateStudentPage() {
 
     const token =
       typeof window !== "undefined" ? localStorage.getItem("token") : null;
-
-    console.log(token);
 
     if (!token) return;
 
@@ -39,77 +36,85 @@ export default function UpdateStudentPage() {
     const data = await response.json();
     if (response.ok) {
       alert("Profile updated successfully");
+      router.back();
     } else {
-      console.log(data);
-
       alert(`Error: ${data.message}`);
     }
   };
 
   return (
-    <div className="max-w-md mx-auto p-4">
-      <h2 className="text-xl font-bold">Update Student Profile</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input
-          type="text"
-          name="email"
-          placeholder="Email"
-          value={form.email}
-          onChange={handleChange}
-          className="w-full p-2 border"
-        />
-        <input
-          type="text"
-          name="fullname"
-          placeholder="Full Name"
-          value={form.fullname}
-          onChange={handleChange}
-          className="w-full p-2 border"
-        />
-        <input
-          type="password"
-          name="password"
-          placeholder="New Password"
-          value={form.password}
-          onChange={handleChange}
-          className="w-full p-2 border"
-        />
-        <input
-          type="text"
-          name="studentId"
-          placeholder="Student ID"
-          value={form.studentId}
-          onChange={handleChange}
-          className="w-full p-2 border"
-        />
-        <input
-          type="text"
-          name="grade"
-          placeholder="Grade"
-          value={form.grade}
-          onChange={handleChange}
-          className="w-full p-2 border"
-        />
-        <input
-          type="text"
-          name="schoolId"
-          placeholder="School ID"
-          value={form.schoolId}
-          onChange={handleChange}
-          className="w-full p-2 border"
-        />
-        <input
-          type="text"
-          name="phoneNumber"
-          placeholder="Phone Number"
-          value={form.phoneNumber}
-          onChange={handleChange}
-          className="w-full p-2 border"
-        />
-        <button type="submit" className="w-full bg-blue-500 text-white p-2">
-          Update Profile
-        </button>
-      </form>
+    <div className="p-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="mb-8 flex items-center">
+          <button
+            onClick={() => router.back()}
+            className="text-[#75B7AA] hover:text-[#629b8f] mr-4"
+          >
+            <ArrowLeft className="h-5 w-5" />
+          </button>
+          <div>
+            <h1 className="text-2xl font-semibold text-[#75B7AA]">
+              Update Profil Siswa
+            </h1>
+            <p className="text-gray-500 text-sm mt-1">
+              Perbarui informasi profil Anda dengan mengisi form berikut
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6 text-gray-600">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Nama Lengkap
+              </label>
+              <input
+                type="text"
+                name="fullname"
+                placeholder="Masukkan nama lengkap"
+                value={form.fullname}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                NIS (Nomor Induk Siswa)
+              </label>
+              <input
+                type="text"
+                name="studentId"
+                placeholder="Masukkan NIS"
+                value={form.studentId}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Kelas
+              </label>
+              <input
+                type="text"
+                name="grade"
+                placeholder="Masukkan kelas"
+                value={form.grade}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#75B7AA] text-white py-3 rounded-lg hover:bg-[#629b8f] transition-colors font-medium"
+            >
+              Perbarui Profil
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }

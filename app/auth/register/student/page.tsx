@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from "lucide-react";
 
 export default function RegisterStudent() {
   const router = useRouter();
@@ -16,11 +16,31 @@ export default function RegisterStudent() {
     schoolId: "",
     phoneNumber: "",
   });
+  const [schools, setSchools] = useState<{ id: string; name: string }[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // Ambil daftar sekolah dari API saat komponen dimuat
+  useEffect(() => {
+    const fetchSchools = async () => {
+      try {
+        const res = await fetch("/api/auth/register/school");
+        if (!res.ok) throw new Error("Failed to fetch schools");
+        const data = await res.json();
+        setSchools(data.schools);
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message);
+      }
+    };
+
+    fetchSchools();
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -140,14 +160,20 @@ export default function RegisterStudent() {
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
             required
           />
-          <input
-            type="text"
+          <select
             name="schoolId"
-            placeholder="School ID (Optional)"
             value={form.schoolId}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
-          />
+            required
+          >
+            <option value="">Select your school</option>
+            {schools.map((school) => (
+              <option key={school.id} value={school.id}>
+                {school.name}
+              </option>
+            ))}
+          </select>
           <input
             type="text"
             name="phoneNumber"
@@ -173,13 +199,6 @@ export default function RegisterStudent() {
         {success && (
           <p className="text-green-500 text-sm text-center mt-4">{success}</p>
         )}
-
-        <div className="text-center mt-6 text-gray-600">
-          Already have an account?{" "}
-          <Link href="/auth/login" className="text-[#75B7AA] hover:underline">
-            Login
-          </Link>
-        </div>
       </div>
     </div>
   );

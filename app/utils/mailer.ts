@@ -5,7 +5,7 @@ const transporter = nodemailer.createTransport({
   auth: { user: process.env.EMAIL_SERVER_USER, pass: process.env.EMAIL_SERVER_PASSWORD },
 });
 
-export const sendVerificationEmail = async (email, code) => {
+export const sendVerificationEmail = async (email: any, code: any) => {
   const link = `http://localhost:3000/auth/verify?code=${code}`;
   await transporter.sendMail({
     to: email,
@@ -14,7 +14,7 @@ export const sendVerificationEmail = async (email, code) => {
   });
 };
 
-export const sendResetPasswordEmail = async (email, token) => {
+export const sendResetPasswordEmail = async (email: any, token: any) => {
   const link = `http://localhost:3000/auth/reset-password?token=${token}`;
   await transporter.sendMail({
     to: email,

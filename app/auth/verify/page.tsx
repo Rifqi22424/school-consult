@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 export default function VerifyEmail() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const code = searchParams.get("code");
+  const code = searchParams?.get("code");
   const [status, setStatus] = useState("loading");
 
   useEffect(() => {

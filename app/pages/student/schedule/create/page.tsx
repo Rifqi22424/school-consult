@@ -9,10 +9,10 @@ export default function CreateSchedulePage() {
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
@@ -44,7 +44,7 @@ export default function CreateSchedulePage() {
       setDescription("");
       setDate("");
       router.push("/pages/student/schedule");
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);

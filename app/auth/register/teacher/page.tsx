@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
@@ -20,8 +20,27 @@ export default function RegisterTeacher() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState("");
+  const [schools, setSchools] = useState<{ id: string; name: string }[]>([]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const fetchSchools = async () => {
+      try {
+        const res = await fetch("/api/auth/register/school");
+        if (!res.ok) throw new Error("Failed to fetch schools");
+        const data = await res.json();
+        setSchools(data.schools);
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message);
+      }
+    };
+
+    fetchSchools();
+  }, []);
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -141,14 +160,20 @@ export default function RegisterTeacher() {
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
             required
           />
-          <input
-            type="text"
+          <select
             name="schoolId"
-            placeholder="School ID (Optional)"
             value={form.schoolId}
             onChange={handleChange}
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
-          />
+            required
+          >
+            <option value="">Select your school</option>
+            {schools.map((school) => (
+              <option key={school.id} value={school.id}>
+                {school.name}
+              </option>
+            ))}
+          </select>
 
           <button
             type="submit"

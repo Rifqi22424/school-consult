@@ -47,6 +47,12 @@ export default function LayoutWrapper({
     setTimeout(() => router.push("/auth/login"), 3000);
   };
 
+  const handleProfile = () => {
+    role === "TEACHER"
+      ? setTimeout(() => router.push("/teacher/user"), 3000)
+      : setTimeout(() => router.push("/pages/student/user"), 3000);
+  };
+
   return (
     <AuthWrapper setIsAuthPage={setIsAuthPage}>
       {isAuthPage ? (
@@ -67,7 +73,7 @@ export default function LayoutWrapper({
             } md:block`}
           >
             <div className="p-6 flex justify-between">
-              <Link href="/" className="text-2xl font-bold text-[#75B7AA]">
+              <Link href="#" className="text-2xl font-bold text-[#75B7AA]">
                 SahabatBK
               </Link>
               {sidebarOpen && (
@@ -161,10 +167,16 @@ export default function LayoutWrapper({
                     </div>
                   </div>
                   {showLogout && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
+                    <div className="absolute right-0 mt-6 w-40 bg-white border border-gray-200 rounded-lg shadow-lg py-2">
+                      <button
+                        onClick={handleProfile}
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      >
+                        Profile
+                      </button>
                       <button
                         onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-red-100"
                       >
                         Logout
                       </button>

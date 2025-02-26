@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function CreateSchool() {
-  const router = useRouter();
   const [form, setForm] = useState({ name: "", address: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -40,7 +39,7 @@ export default function CreateSchool() {
 
       // Redirect setelah sukses
     //   setTimeout(() => router.push("/admin/schools"), 2000);
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);

@@ -16,7 +16,7 @@ export default function CreateModule() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!token) {
       setError("Token tidak ditemukan. Silakan login ulang.");
@@ -44,7 +44,7 @@ export default function CreateModule() {
 
       alert("Module berhasil ditambahkan!");
       router.push("/pages/student/module/list-module");
-    } catch (err) {
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
@@ -113,7 +113,7 @@ export default function CreateModule() {
               </label>
               <MDEditor
                 value={content}
-                onChange={setContent}
+                onChange={(value) => setContent(value || "")}
                 className="border border-gray-300 rounded-lg overflow-hidden"
               />
             </div>

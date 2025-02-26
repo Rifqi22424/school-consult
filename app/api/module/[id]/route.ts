@@ -3,11 +3,12 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
-export async function GET(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+type Params = Promise<{ id: any }>;
+
+export async function GET(req: Request, { params }: { params: Params }) {
   try {
+    const { id } = await params;
+
     const userId = req.headers.get("x-user-id") ?? "";
     const userRole = req.headers.get("x-user-role") ?? "";
 
@@ -56,7 +57,7 @@ export async function GET(
     // Ambil module berdasarkan schoolId
     const module = await prisma.module.findUnique({
       where: {
-        id: params.id,
+        id: id,
         schoolId: schoolId, // Pastikan hanya module dari sekolah yang sama
       },
       include: {
@@ -78,11 +79,9 @@ export async function GET(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(req: Request, { params }: { params: Params }) {
   try {
+    const { id } = await params;
     const userId = req.headers.get("x-user-id") ?? "";
     const userRole = req.headers.get("x-user-role") ?? "";
 
@@ -111,7 +110,7 @@ export async function DELETE(
     }
 
     const module = await prisma.module.findUnique({
-      where: { id: params.id },
+      where: { id: id },
       select: { schoolId: true },
     });
 
@@ -128,7 +127,7 @@ export async function DELETE(
 
     // Hapus module jika semua validasi lolos
     await prisma.module.delete({
-      where: { id: params.id },
+      where: { id: id },
     });
 
     return NextResponse.json({ message: "Module deleted successfully" });
