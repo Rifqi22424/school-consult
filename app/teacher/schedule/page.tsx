@@ -6,8 +6,12 @@ export default function TeacherSchedulePage() {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
-  const [expandedTitles, setExpandedTitles] = useState<Record<string, boolean>>({});
+  const [expandedDescriptions, setExpandedDescriptions] = useState<
+    Record<string, boolean>
+  >({});
+  const [expandedTitles, setExpandedTitles] = useState<Record<string, boolean>>(
+    {}
+  );
 
   useEffect(() => {
     const token =
@@ -92,7 +96,7 @@ export default function TeacherSchedulePage() {
         dilaksanakan. Anda dapat memantau status permintaan konseling dan
         mengakses informasi jadwal yang sudah disetujui.
       </p>
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hidden md:block">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -208,6 +212,109 @@ export default function TeacherSchedulePage() {
               )}
             </tbody>
           </table>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-y-6 md:hidden">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <h2 className="text-lg font-semibold p-4 border-b border-gray-200 text-[#75B7AA]">Informasi Jadwal</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left p-4 font-medium text-gray-900">Title</th>
+                  <th className="text-left p-4 font-medium text-gray-900">Date</th>
+                  <th className="text-left p-4 font-medium text-gray-900">Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {schedules.length > 0 ? (
+                  schedules.map((schedule: any) => (
+                    <tr key={`schedule-${schedule.id}`} className="border-b border-gray-200 last:border-0">
+                      <td className="p-4 text-gray-600 text-sm">
+                        {expandedTitles[schedule.id]
+                          ? schedule.title
+                          : schedule.title.slice(0, 15)}
+                        {schedule.title.length > 15 && (
+                          <button
+                            onClick={() => toggleTitle(schedule.id)}
+                            className="text-[#75B7AA] ml-2 text-xs"
+                          >
+                            {expandedTitles[schedule.id] ? "Less" : "More"}
+                          </button>
+                        )}
+                      </td>
+                      <td className="p-4 text-gray-600 text-sm">
+                        {new Date(schedule.date).toLocaleString()}
+                      </td>
+                      <td className="p-4 text-gray-600 text-sm">
+                        {getStatusBadge(schedule.status)}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={3} className="p-4 text-gray-600 text-sm text-center">No schedules found.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <h2 className="text-lg font-semibold p-4 border-b border-gray-200 text-[#75B7AA]">Detail Siswa dan Aksi</h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left p-4 font-medium text-gray-900">Full Name</th>
+                  <th className="text-left p-4 font-medium text-gray-900">Class</th>
+                  <th className="text-left p-4 font-medium text-gray-900">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {schedules.length > 0 ? (
+                  schedules.map((schedule: any) => {
+                    const scheduleDate = new Date(schedule.date);
+                    const now = new Date();
+                    const isExpired = scheduleDate < now;
+                    return (
+                      <tr key={`student-${schedule.id}`} className="border-b border-gray-200 last:border-0">
+                        <td className="p-4 text-gray-600 text-sm">
+                          {schedule.student?.user.fullname || "Not Assigned"}
+                        </td>
+                        <td className="p-4 text-gray-600 text-sm">
+                          {schedule.student?.grade || "Not Available"}
+                        </td>
+                        <td className="p-4 text-gray-600 text-sm">
+                          {schedule.status === "APPROVED" && !isExpired ? (
+                            <button
+                              onClick={() =>
+                                window.open(
+                                  `https://wa.me/${schedule.counselor?.phoneNumber}`,
+                                  "_blank"
+                                )
+                              }
+                              className="text-blue-500 hover:underline"
+                            >
+                              [Mulai Konseling]
+                            </button>
+                          ) : (
+                            <span className="text-blue-500">-</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan={3} className="p-4 text-gray-600 text-sm text-center">No schedules found.</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

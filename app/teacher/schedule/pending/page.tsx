@@ -76,7 +76,7 @@ export default function PendingSchedulesPage() {
         <div className="overflow-x-auto">
           <table className="w-full"></table> */}
 
-      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+      <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hidden md:block">
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
@@ -113,22 +113,22 @@ export default function PendingSchedulesPage() {
                       {new Date(schedule.date).toLocaleString()}
                     </td>
                     <td className="p-4 max-w-40 break-words text-gray-600 text-sm text-center">
-                        <button
-                          onClick={() =>
-                            handleUpdateSchedule(schedule.id, "APPROVED")
-                          }
-                          className="bg-green-500 text-white px-4 py-1 rounded mr-2"
-                        >
-                          Terima
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleUpdateSchedule(schedule.id, "REJECTED")
-                          }
-                          className="bg-red-500 text-white px-4 py-1 rounded my-2"
-                        >
-                          Tolak
-                        </button>
+                      <button
+                        onClick={() =>
+                          handleUpdateSchedule(schedule.id, "APPROVED")
+                        }
+                        className="bg-green-500 text-white px-4 py-1 rounded mr-2"
+                      >
+                        Terima
+                      </button>
+                      <button
+                        onClick={() =>
+                          handleUpdateSchedule(schedule.id, "REJECTED")
+                        }
+                        className="bg-red-500 text-white px-4 py-1 rounded my-2"
+                      >
+                        Tolak
+                      </button>
                     </td>
                   </tr>
                 ))
@@ -144,6 +144,120 @@ export default function PendingSchedulesPage() {
               )}
             </tbody>
           </table>
+        </div>
+      </div>
+      <div className="grid md:grid-cols-2 gap-y-6 md:hidden">
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <h2 className="text-lg font-semibold p-4 border-b border-gray-200 text-[#75B7AA]">
+            Informasi Siswa
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left p-4 font-medium text-gray-900">
+                    Student
+                  </th>
+                  <th className="text-left p-4 font-medium text-gray-900">
+                    Grade
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {schedules.length > 0 ? (
+                  schedules.map((schedule: any) => (
+                    <tr
+                      key={`student-${schedule.id}`}
+                      className="border-b border-gray-200 last:border-0"
+                    >
+                      <td className="p-4 text-gray-600 text-sm">
+                        {schedule.student?.user?.fullname}
+                      </td>
+                      <td className="p-4 text-gray-600 text-sm">
+                        {schedule.student?.user?.student?.grade}
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={2}
+                      className="p-4 text-gray-600 text-sm text-center"
+                    >
+                      No pending schedules found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+          <h2 className="text-lg font-semibold p-4 border-b border-gray-200 text-[#75B7AA]">
+            Detail Jadwal
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="border-b border-gray-200">
+                  <th className="text-left p-4 font-medium text-gray-900">
+                    Title
+                  </th>
+                  <th className="text-left p-4 font-medium text-gray-900">
+                    Date
+                  </th>
+                  <th className="p-4 font-medium text-gray-900 text-center">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {schedules.length > 0 ? (
+                  schedules.map((schedule: any) => (
+                    <tr
+                      key={`schedule-${schedule.id}`}
+                      className="border-b border-gray-200 last:border-0"
+                    >
+                      <td className="p-4 text-gray-600 text-sm">
+                        {schedule.title}
+                      </td>
+                      <td className="p-4 text-gray-600 text-sm">
+                        {new Date(schedule.date).toLocaleString()}
+                      </td>
+                      <td className="p-4 text-gray-600 text-sm text-center">
+                        <button
+                          onClick={() =>
+                            handleUpdateSchedule(schedule.id, "APPROVED")
+                          }
+                          className="bg-green-500 text-white px-4 py-1 rounded mr-2"
+                        >
+                          Terima
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleUpdateSchedule(schedule.id, "REJECTED")
+                          }
+                          className="bg-red-500 text-white px-4 py-1 rounded"
+                        >
+                          Tolak
+                        </button>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan={3}
+                      className="p-4 text-gray-600 text-sm text-center"
+                    >
+                      No pending schedules found.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>

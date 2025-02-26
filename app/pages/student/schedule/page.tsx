@@ -110,9 +110,10 @@ export default function StudentSchedulePage() {
               </button>
             </div>
 
-              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <div className="overflow-x-auto">
-                  <table className="w-full">
+            {/* Full-width table for larger screens */}
+            <div className="bg-white rounded-lg border border-gray-200 overflow-hidden hidden md:block">
+              <div className="overflow-x-auto">
+                <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-200">
                       <th className="text-left p-4 font-medium text-gray-900">Tanggal dan waktu</th>
@@ -167,10 +168,88 @@ export default function StudentSchedulePage() {
                 </table>
               </div>
             </div>
+
+            {/* Split tables for mobile view */}
+            <div className="grid md:grid-cols-2 gap-6 md:hidden">
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <h2 className="text-lg font-semibold p-4 border-b border-gray-200 text-[#75B7AA]">Informasi Jadwal</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left p-4 font-medium text-gray-900">Tanggal dan waktu</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Topik</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {schedules.map((schedule: any) => (
+                        <tr key={`schedule-${schedule.id}`} className="border-b border-gray-200 last:border-0">
+                          <td className="p-4 text-gray-600 text-sm">
+                            {new Date(schedule.date).toLocaleString("id-ID", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                          </td>
+                          <td className="p-4 text-gray-600 text-sm">{schedule.title}</td>
+                          <td className="p-4 text-gray-600 text-sm">{getStatusBadge(schedule.status)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <h2 className="text-lg font-semibold p-4 border-b border-gray-200 text-[#75B7AA]">Detail Guru BK dan Aksi</h2>
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left p-4 font-medium text-gray-900">Guru BK</th>
+                        <th className="text-left p-4 font-medium text-gray-900">Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {schedules.map((schedule: any) => {
+                        const scheduleDate = new Date(schedule.date)
+                        const now = new Date()
+                        const isExpired = scheduleDate < now
+                        return (
+                          <tr key={`counselor-${schedule.id}`} className="border-b border-gray-200 last:border-0">
+                            <td className="p-4 text-gray-600 text-sm">
+                              {schedule.counselor?.user?.fullname || "Not Assigned"}
+                            </td>
+                            <td className="p-4 text-gray-600 text-sm">
+                              {schedule.status === "APPROVED" && !isExpired ? (
+                                <button
+                                  onClick={() => handleStartCounseling(schedule.counselor?.phoneNumber)}
+                                  className="text-blue-500 hover:underline"
+                                >
+                                  [Mulai Konseling]
+                                </button>
+                              ) : schedule.status === "REJECTED" ? (
+                                <button onClick={() => handleReapply()} className="text-blue-500 hover:underline">
+                                  [Ajukan ulang]
+                                </button>
+                              ) : (
+                                "-"
+                              )}
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </>
         )}
       </div>
     </div>
   )
 }
-
