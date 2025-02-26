@@ -1,12 +1,11 @@
 "use client";
 
 import type React from "react";
-
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 
-export default function ResetPassword() {
+function ResetPasswordContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const token = searchParams?.get("token");
@@ -36,7 +35,6 @@ export default function ResetPassword() {
 
     if (res.ok) {
       setSuccess("Password has been reset successfully");
-      // setTimeout(() => router.push("/auth/login"), 2000)
       router.push("/auth/login");
     } else {
       setError(data.message);
@@ -74,7 +72,7 @@ export default function ResetPassword() {
           />
           <input
             type="password"
-            placeholder="Konfirmasi password"
+            placeholder="Confirm password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
@@ -97,5 +95,13 @@ export default function ResetPassword() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function ResetPassword() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordContent />
+    </Suspense>
   );
 }
