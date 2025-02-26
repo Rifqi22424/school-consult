@@ -25,9 +25,6 @@ export default function AuthWrapper({
     setIsAuthenticated(!!token);
     setIsAuthPage(isAuthPage); // Kirim status halaman auth ke layout
 
-    // if (!token && !isAuthPage) {
-    //   router.push("/auth/login");
-    // }
   });
 
   if (isAuthenticated || isAuthPage) {
@@ -38,7 +35,7 @@ export default function AuthWrapper({
 
   if (isAuthenticated === false) {
     console.log("isAuthenticated === false");
-    return null;
+    return <>{children}</>;
   }
 
   console.log("null");

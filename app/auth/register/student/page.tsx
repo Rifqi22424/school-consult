@@ -75,7 +75,7 @@ export default function RegisterStudent() {
       });
 
       // setTimeout(() => router.push("/auth/login"), 3000);
-      router.push("/auth/login");
+      // router.push("/auth/login");
     } catch (err: any) {
       setError(err.message);
     } finally {

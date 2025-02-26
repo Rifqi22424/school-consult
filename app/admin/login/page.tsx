@@ -34,30 +34,62 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold">Admin Login</h1>
-      <form onSubmit={handleLogin} className="flex flex-col gap-3 mt-5">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-2"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-2"
-          required
-        />
-        <button type="submit" className="bg-blue-500 text-white p-2">
-          Login
-        </button>
-      </form>
-      {error && <p className="text-red-500">{error}</p>}
+    <div className="p-8">
+      <div className="max-w-md mx-auto">
+        <div className="mb-8">
+          <h1 className="text-2xl font-semibold text-[#75B7AA]">
+            Login Admin
+          </h1>
+          <p className="text-gray-500 text-sm mt-1">
+            Masuk ke dashboard admin untuk mengelola sistem
+          </p>
+        </div>
+
+        <div className="bg-white rounded-lg border border-gray-200 p-6 text-gray-600">
+          <form onSubmit={handleLogin} className="space-y-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Email
+              </label>
+              <input
+                type="email"
+                placeholder="Masukkan email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Password
+              </label>
+              <input
+                type="password"
+                placeholder="Masukkan password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#75B7AA]"
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full bg-[#75B7AA] text-white py-3 rounded-lg hover:bg-[#629b8f] transition-colors font-medium"
+            >
+              Login
+            </button>
+          </form>
+        </div>
+
+        {error && (
+          <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+            <p className="text-red-600 text-sm">{error}</p>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
