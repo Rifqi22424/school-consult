@@ -73,7 +73,8 @@ export default function RegisterTeacher() {
         schoolId: "",
       });
 
-      setTimeout(() => router.push("/auth/login"), 3000);
+      // setTimeout(() => router.push("/auth/login"), 3000);
+      router.push("/auth/login");
     } catch (err: any) {
       console.log(err.message);
       setError(err.message);

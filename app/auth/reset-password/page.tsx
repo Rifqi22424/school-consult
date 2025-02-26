@@ -1,56 +1,62 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { ArrowLeft } from "lucide-react"
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 export default function ResetPassword() {
-  const router = useRouter()
-  const searchParams = useSearchParams()
-  const token = searchParams?.get("token")
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams?.get("token");
 
-  const [newPassword, setNewPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [error, setError] = useState("")
-  const [success, setSuccess] = useState("")
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const handleResetPassword = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError("")
-    setSuccess("")
+    e.preventDefault();
+    setError("");
+    setSuccess("");
 
     if (newPassword !== confirmPassword) {
-      setError("Passwords do not match")
-      return
+      setError("Passwords do not match");
+      return;
     }
 
     const res = await fetch("/api/auth/reset-password", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ token, newPassword }),
-    })
+    });
 
-    const data = await res.json()
+    const data = await res.json();
 
     if (res.ok) {
-      setSuccess("Password has been reset successfully")
-      setTimeout(() => router.push("/auth/login"), 2000)
+      setSuccess("Password has been reset successfully");
+      // setTimeout(() => router.push("/auth/login"), 2000)
+      router.push("/auth/login");
     } else {
-      setError(data.message)
+      setError(data.message);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-white to-[#75B7AA] p-4">
       <div className="bg-white rounded-lg shadow-xl p-8 w-full max-w-md">
         <div className="flex items-center mb-6">
-          <button onClick={() => router.back()} className="text-[#75B7AA] hover:text-[#629b8f] mr-4">
+          <button
+            onClick={() => router.back()}
+            className="text-[#75B7AA] hover:text-[#629b8f] mr-4"
+          >
             <ArrowLeft className="h-5 w-5" />
           </button>
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">Create a new password</h1>
+            <h1 className="text-2xl font-semibold text-gray-900">
+              Create a new password
+            </h1>
             <p className="text-gray-500 text-sm mt-1">
               Create a password with at least 6 letters and numbers.
             </p>
@@ -83,10 +89,13 @@ export default function ResetPassword() {
           </button>
         </form>
 
-        {error && <p className="text-red-500 text-sm text-center mt-4">{error}</p>}
-        {success && <p className="text-green-500 text-sm text-center mt-4">{success}</p>}
+        {error && (
+          <p className="text-red-500 text-sm text-center mt-4">{error}</p>
+        )}
+        {success && (
+          <p className="text-green-500 text-sm text-center mt-4">{success}</p>
+        )}
       </div>
     </div>
-  )
+  );
 }
-

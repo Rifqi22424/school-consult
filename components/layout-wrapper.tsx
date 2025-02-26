@@ -44,13 +44,16 @@ export default function LayoutWrapper({
     setName(null);
     setRole(null);
 
-    setTimeout(() => router.push("/auth/login"), 3000);
+    // setTimeout(() => router.push("/auth/login"), 3000);
+    router.push("/auth/login");
   };
 
   const handleProfile = () => {
     role === "TEACHER"
-      ? setTimeout(() => router.push("/teacher/user"), 3000)
-      : setTimeout(() => router.push("/pages/student/user"), 3000);
+      ? router.push("/teacher/user")
+      : router.push("/pages/student/user");
+    // ? setTimeout(() => router.push("/teacher/user"), 3000)
+    // : setTimeout(() => router.push("/pages/student/user"), 3000);
   };
 
   return (

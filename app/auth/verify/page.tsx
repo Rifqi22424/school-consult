@@ -20,7 +20,8 @@ export default function VerifyEmail() {
       .then((data) => {
         if (data.message === "Email verified!") {
           setStatus("success");
-          setTimeout(() => router.push("/auth/login"), 2000);
+          // setTimeout(() => router.push("/auth/login"), 2000);
+          router.push("/auth/login");
         } else {
           setStatus("error");
         }

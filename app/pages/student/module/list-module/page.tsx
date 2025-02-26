@@ -32,7 +32,8 @@ export default function ModuleList() {
       setIsModalOpen(false);
       // Refresh data setelah menghapus
 
-      setTimeout(() => window.location.reload(), 3000);
+      // setTimeout(() => window.location.reload(), 3000);
+      window.location.reload();
     } catch (err: any) {
       console.error(err);
     }

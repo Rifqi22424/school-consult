@@ -74,7 +74,8 @@ export default function RegisterStudent() {
         phoneNumber: "",
       });
 
-      setTimeout(() => router.push("/auth/login"), 3000);
+      // setTimeout(() => router.push("/auth/login"), 3000);
+      router.push("/auth/login");
     } catch (err: any) {
       setError(err.message);
     } finally {

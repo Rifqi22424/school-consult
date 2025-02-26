@@ -38,7 +38,7 @@ export default function CreateSchool() {
       setForm({ name: "", address: "" });
 
       // Redirect setelah sukses
-    //   setTimeout(() => router.push("/admin/schools"), 2000);
+      //   setTimeout(() => router.push("/admin/schools"), 2000);
     } catch (err: any) {
       setError(err.message);
     } finally {
