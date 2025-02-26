@@ -37,7 +37,7 @@ export default function CreateSchool() {
       setSuccess("Sekolah berhasil ditambahkan!");
       setForm({ name: "", address: "" });
 
-    } catch (err: any) {nv
+    } catch (err: any) {
       setError(err.message);
     } finally {
       setLoading(false);
