@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `teacher` ADD COLUMN `phoneNumber` VARCHAR(191) NOT NULL DEFAULT '085721050709';
