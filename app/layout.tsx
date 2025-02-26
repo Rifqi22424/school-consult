@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: "Sahabat BK",
   description: "Sahabat BK",
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon.ico",
   },
 };
 
@@ -29,7 +29,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <link rel="icon" href="/favicon.png" sizes="any" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
       </head>
       <body className={inter.className}>
         <LayoutWrapper>{children}</LayoutWrapper>
