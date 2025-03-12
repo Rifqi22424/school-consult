@@ -8,10 +8,10 @@ import main_logo from "../../../public/assets/main_logo.png";
 
 export default function Login() {
   const router = useRouter();
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("rifqimuzakki45@gmail.com");
-  const [password, setPassword] = useState("password");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  // const [email, setEmail] = useState("rifqimuzakki45@gmail.com");
+  // const [password, setPassword] = useState("password");
   // const [email, setEmail] = useState("rifqimuzakki4545@gmail.com");
   // const [password, setPassword] = useState("password");
   const [error, setError] = useState("");

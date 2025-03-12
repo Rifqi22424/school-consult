@@ -6,7 +6,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export const sendVerificationEmail = async (email: any, code: any) => {
-  const link = `http://localhost:3000/auth/verify?code=${code}`;
+  const link = `https://school-consult.vercel.app/auth/verify?code=${code}`;
   await transporter.sendMail({
     to: email,
     subject: "Verify your email",
@@ -15,7 +15,7 @@ export const sendVerificationEmail = async (email: any, code: any) => {
 };
 
 export const sendResetPasswordEmail = async (email: any, token: any) => {
-  const link = `http://localhost:3000/auth/reset-password?token=${token}`;
+  const link = `https://school-consult.vercel.app/auth/reset-password?token=${token}`;
   await transporter.sendMail({
     to: email,
     subject: "Reset your password",
